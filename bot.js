@@ -26,6 +26,20 @@ client.on('ready', () => {
     res.send(JSON.stringify(userData));
   });
 
+  app.get('/users/:id/presence', (req, res) => {
+
+    var user = client.users.cache.find(user => user.id === req.params.id);
+
+    if (JSON.stringify(user.presence.clientStatus).includes('"mobile":"online"')){
+      var userClientStatus = "mobile"
+    }
+    else{
+      var userClientStatus = user.presence.status
+    }
+
+    res.send(userClientStatus);
+  });
+
   app.get('/cls', (req, res) => {
     res.send(200);
     console.clear();
